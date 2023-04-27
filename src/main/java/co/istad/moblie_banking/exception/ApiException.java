@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,6 +17,19 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ApiException {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ResponseStatusException.class)
+    public BaseError<?> handleServiceException(ResponseStatusException e){
+        return BaseError.builder()
+                .status(false)
+                .code(HttpStatus.BAD_REQUEST.value())
+                .timestamp(LocalDateTime.now())
+                .message("Something went wrong ..! ,please check")
+                .errors(e.getReason())
+                .build()
+                ;
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public BaseError<?> handleValidationException(MethodArgumentNotValidException e){
