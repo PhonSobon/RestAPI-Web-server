@@ -31,4 +31,26 @@ public class UserServiceImpl implements UserService{
 
         return userMapStruct.userToUserDto(user);
     }
+
+    @Override
+    public Integer deleteUserById(Integer id) {
+        boolean isExisted = userMapper.existById(id);
+        if(isExisted){
+            userMapper.deleteById(id);
+            return  id;
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+        String.format("User with %d is not found",id));
+    }
+
+    @Override
+    public Integer updateIsDeletedStatusById(Integer id,boolean  status) {
+        boolean isExisted = userMapper.existById(id);
+        if(isExisted){
+            userMapper.updateIsDeletedById(id,status);
+            return  id;
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                String.format("User with %d is not found",id));
+    }
 }
