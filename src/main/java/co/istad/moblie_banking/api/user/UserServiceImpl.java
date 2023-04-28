@@ -2,6 +2,8 @@ package co.istad.moblie_banking.api.user;
 
 import co.istad.moblie_banking.api.user.web.CreateUserDto;
 import co.istad.moblie_banking.api.user.web.UserDto;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,14 @@ public class UserServiceImpl implements UserService{
                         String.format("User with %d is not found",id)));
 
         return userMapStruct.userToUserDto(user);
+    }
+
+    @Override
+    public PageInfo<UserDto> findAllUsers(int page, int limit) {
+        PageInfo<User> userPageInfo = PageHelper.startPage(page,limit)
+                .doSelectPageInfo(userMapper::select);
+
+        return userMapStruct.userPageInfoToUserDtoPageInfo(userPageInfo);
     }
 
     @Override

@@ -2,6 +2,7 @@ package co.istad.moblie_banking.api.user.web;
 
 import co.istad.moblie_banking.api.user.UserService;
 import co.istad.moblie_banking.base.BaseRest;
+import com.github.pagehelper.PageInfo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +54,20 @@ public class UserRestController {
                 .build();
 
     }
+    @GetMapping
+    public BaseRest<?> findAllUsers(@RequestParam(name = "page",required = false,defaultValue = "1")int page,
+                                    @RequestParam(name = "limit",required = false,defaultValue = "20")int limit){
+        PageInfo<UserDto> userDtoPageInfo = userService.findAllUsers(page,limit);
+        return BaseRest.builder()
+                .status(true)
+                .code(HttpStatus.OK.value())
+                .message("User has been create successfully.")
+                .timestamp(LocalDateTime.now())
+                .data(userDtoPageInfo)
+                .build();
+
+    }
+
     @PostMapping
     public BaseRest<?> createNewUser(@RequestBody @Valid CreateUserDto createUserDto){
         UserDto userDto = userService.createNewUser(createUserDto);
