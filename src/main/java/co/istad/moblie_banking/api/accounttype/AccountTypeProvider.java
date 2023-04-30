@@ -5,22 +5,6 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class AccountTypeProvider {
     private static final String tableName="account_types";
-    public String buildSelectSql(@Param("name") String name) {
-        return new SQL() {{
-            SELECT("*");
-            FROM(tableName);
-            if(!(name.isEmpty())){
-                WHERE("name ILIKE CONCAT('%',#{name},'%')");
-            }
-        }}.toString();
-    }
-    public String buildSelectByIdSql(){
-        return new SQL(){{
-            SELECT("*");
-            FROM(tableName);
-            WHERE("id=#{id}");
-        }}.toString();
-    }
     public String buildInsertSql(){
         return new SQL(){{
             INSERT_INTO(tableName);
@@ -40,5 +24,22 @@ public class AccountTypeProvider {
             WHERE("id=#{id}");
         }}.toString();
     }
+    public String buildSelectSql(@Param("name") String name) {
+        return new SQL() {{
+            SELECT("*");
+            FROM(tableName);
+            WHERE("name ILIKE CONCAT('%',#{name},'%')");
+        }}.toString();
+    }
+    public String buildSelectByIdSql(){
+        return new SQL(){{
+            SELECT("*");
+            FROM(tableName);
+            WHERE("id=#{id}");
+        }}.toString();
+    }
+
+
+
 }
 

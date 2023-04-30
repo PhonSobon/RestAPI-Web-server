@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class AccountRestController {
     private  final AccountTypeService accountTypeService;
     @GetMapping
-    BaseRest<?> findAll(@RequestParam(required = false,name = "page",defaultValue = "1") int page, @RequestParam(required = false,name = "limit",defaultValue = "20") int limit,
+    BaseRest<?> findAllAccountType(@RequestParam(required = false,name = "page",defaultValue = "1") int page, @RequestParam(required = false,name = "limit",defaultValue = "20") int limit,
             @RequestParam(required = false,name = "name" ,defaultValue = "")String name){
         PageInfo<AccountTypeDto> accountTypeDtoPageInfo=accountTypeService.findAllAccountTpes(page,limit,name);
         return BaseRest.builder()
@@ -28,7 +28,7 @@ public class AccountRestController {
                 .build();
     }
     @GetMapping("/{id}")
-    BaseRest<?> findById(@PathVariable("id") Integer id){
+    BaseRest<?> findAccountById(@PathVariable("id") Integer id){
         AccountTypeDto accountTypeDto=accountTypeService.findAccountTypeById(id);
         return BaseRest.builder()
                 .status(true)
@@ -39,7 +39,7 @@ public class AccountRestController {
                 .build();
     }
     @PostMapping
-    BaseRest<?> addAccountType(@RequestBody @Valid AccountTypeDto accountTypeDto){
+    BaseRest<?> createAccountType(@RequestBody @Valid AccountTypeDto accountTypeDto){
         AccountTypeDto accountTypeDtoResult=accountTypeService.createAccountType(accountTypeDto);
         return BaseRest.builder()
                 .status(true)
@@ -50,7 +50,7 @@ public class AccountRestController {
                 .build();
     }
     @PutMapping("/{id}")
-    BaseRest<?> updateAccountType(@PathVariable("id") Integer id,@RequestBody @Valid AccountTypeDto accountTypeDto){
+    BaseRest<?> updateAccountTypeById(@PathVariable("id") Integer id,@RequestBody @Valid AccountTypeDto accountTypeDto){
         AccountTypeDto accountTypeDtoResult=accountTypeService.updateAccountTypeById(id,accountTypeDto);
         return BaseRest.builder()
                 .status(true)
@@ -61,7 +61,7 @@ public class AccountRestController {
                 .build();
     }
     @DeleteMapping("/{id}")
-    BaseRest<?> deleteAccountType(@PathVariable("id") Integer id){
+    BaseRest<?> deleteAccountTypeById(@PathVariable("id") Integer id){
         Integer accountTypeDtoResult=accountTypeService.deleteById(id);
         return BaseRest.builder()
                 .status(true)
