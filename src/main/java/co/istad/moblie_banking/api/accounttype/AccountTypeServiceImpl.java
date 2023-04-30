@@ -55,7 +55,7 @@ public class AccountTypeServiceImpl implements AccountTypeService{
     }
 
     @Override
-    public Integer deleteById(Integer id) {
+    public Integer deleteAccountTypeById(Integer id) {
         boolean isIdExist=accountTypeMapper.isIdExist(id);
         if(isIdExist){
             accountTypeMapper.delete(id);

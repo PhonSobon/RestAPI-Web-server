@@ -11,5 +11,5 @@ public interface AccountTypeService {
     AccountTypeDto findAccountTypeById(Integer id);
     AccountTypeDto createAccountType(AccountTypeDto accountTypeDto);
     AccountTypeDto updateAccountTypeById(Integer id,AccountTypeDto accountTypeDto);
-    Integer deleteById(Integer id);
+    Integer deleteAccountTypeById(Integer id);
 }

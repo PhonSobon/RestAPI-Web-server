@@ -62,7 +62,7 @@ public class AccountRestController {
     }
     @DeleteMapping("/{id}")
     BaseRest<?> deleteAccountTypeById(@PathVariable("id") Integer id){
-        Integer accountTypeDtoResult=accountTypeService.deleteById(id);
+        Integer accountTypeDtoResult=accountTypeService.deleteAccountTypeById(id);
         return BaseRest.builder()
                 .status(true)
                 .code(HttpStatus.OK.value())
