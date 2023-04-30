@@ -12,4 +12,5 @@ public interface UserService {
         Integer deleteUserById(Integer id);
         Integer updateIsDeletedStatusById(Integer id ,boolean status);
         UserDto updateUserById(Integer id , UpdateUserDto updateUserDto);
+
 }
