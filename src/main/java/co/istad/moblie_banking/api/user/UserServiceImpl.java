@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -76,4 +78,26 @@ public class UserServiceImpl implements UserService{
         throw  new ResponseStatusException(HttpStatus.NOT_FOUND,
                 String.format("User with %d is not found",id));
     }
+    @Override
+    public UserDto searchUserByName(String name) {
+        User user=userMapper.searchByName(name).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        String.format("Student Card Id with id %s is not found",name)
+                )
+        );
+        return userMapStruct.userToUserDto(user);
+    }
+
+    @Override
+    public UserDto searchUserByStudentCard(String studentCard) {
+        User user=userMapper.searchByStudentCard(studentCard).orElseThrow(
+                () -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        String.format("Student Card Id with id %s is not found",studentCard)
+                )
+        );
+        return userMapStruct.userToUserDto(user);
+    }
+
 }

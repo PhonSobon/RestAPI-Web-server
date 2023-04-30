@@ -25,7 +25,12 @@ public interface UserMapper {
      List<User> select();
     @Select("SELECT EXISTS(SELECT * FROM users WHERE id = #{id})")
     boolean existById(@Param("id") Integer id);
-
+    @SelectProvider(type = UserProvider.class,method = "buildSelectByStudentCardIdSql")
+    @ResultMap("userResultMap")
+    Optional<User> searchByName(@Param("name") String name);
+    @SelectProvider(type = UserProvider.class,method = "buildSelectByStudentCardIdSql")
+    @ResultMap("userResultMap")
+    Optional<User> searchByStudentCard(@Param("studentCardId")String studentCardId);
     @DeleteProvider(type = UserProvider.class ,method = "buildDeleteByIdSql")
     void deleteById(@Param("id") Integer id);
     @UpdateProvider(type = UserProvider.class,method = "buildUpdateIsDeleteStatusByIdSql")

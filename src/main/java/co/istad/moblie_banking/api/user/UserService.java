@@ -5,6 +5,8 @@ import co.istad.moblie_banking.api.user.web.UpdateUserDto;
 import co.istad.moblie_banking.api.user.web.UserDto;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 public interface UserService {
         UserDto createNewUser(CreateUserDto createUserDto);
         UserDto findUserById(Integer id);
@@ -12,5 +14,7 @@ public interface UserService {
         Integer deleteUserById(Integer id);
         Integer updateIsDeletedStatusById(Integer id ,boolean status);
         UserDto updateUserById(Integer id , UpdateUserDto updateUserDto);
+        UserDto searchUserByName(String name);
+        UserDto searchUserByStudentCard(String studentCard);
 
 }

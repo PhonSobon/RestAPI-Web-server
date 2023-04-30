@@ -55,4 +55,11 @@ public class UserProvider {
                 WHERE("id = #{id}");
         }}.toString();
     }
+    public String buildSelectSql(@Param("name") String name){
+        return new SQL() {{
+            SELECT("*");
+            FROM(tableName);
+            WHERE("name ILIKE CONCAT('%',#{name},'%')");
+        }}.toString();
+    }
 }

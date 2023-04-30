@@ -6,8 +6,6 @@ import com.github.pagehelper.PageInfo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,4 +89,27 @@ public class UserRestController {
                 .data(userDto)
                 .build();
     }
+    @GetMapping("/{name}")
+    public BaseRest<?> searchUserByName (@PathVariable("name") String name){
+        UserDto userDto=userService.searchUserByName(name);
+        return BaseRest.builder()
+                .status(true)
+                .code(HttpStatus.OK.value())
+                .timestamp(LocalDateTime.now())
+                .message("User search name success")
+                .data(userDto)
+                .build();
+    }
+    @GetMapping("/{studentId}/student-card-id")
+    public BaseRest<?> searchUserByStudentCard(@PathVariable("studentId") String studentId){
+        UserDto userDto=userService.searchUserByStudentCard(studentId);
+        return BaseRest.builder()
+                .status(true)
+                .code(HttpStatus.OK.value())
+                .timestamp(LocalDateTime.now())
+                .message("User search by student card success")
+                .data(userDto)
+                .build();
+    }
+
 }
