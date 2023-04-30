@@ -1,6 +1,7 @@
 package co.istad.moblie_banking.api.user;
 
 import co.istad.moblie_banking.api.user.web.CreateUserDto;
+import co.istad.moblie_banking.api.user.web.UpdateUserDto;
 import co.istad.moblie_banking.api.user.web.UserDto;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -61,6 +62,18 @@ public class UserServiceImpl implements UserService{
             return  id;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                String.format("User with %d is not found",id));
+    }
+
+    @Override
+    public UserDto updateUserById(Integer id, UpdateUserDto updateUserDto) {
+        if(userMapper.existById(id)){
+           User user = userMapStruct.updateUserDtoToUser(updateUserDto);
+           user.setId(id);
+           userMapper.updateById(user);
+            return this.findUserById(id);
+        }
+        throw  new ResponseStatusException(HttpStatus.NOT_FOUND,
                 String.format("User with %d is not found",id));
     }
 }

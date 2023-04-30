@@ -5,6 +5,14 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class UserProvider {
     private static final String tableName ="Users";
+    public String buildUpdateByIdSql(){
+        return new SQL(){{
+            UPDATE(tableName);
+            SET("name = #{u.name}");
+            SET("gender =#{u.gender}");
+            WHERE("id =#{u.id}");
+        }}.toString();
+    }
     public String buildInsertSql(@Param("u") User user){
        return new SQL(){{
           INSERT_INTO(tableName);

@@ -20,7 +20,19 @@ import java.time.LocalDateTime;
 public class UserRestController {
     private final UserService userService;
 
+
     @PutMapping("/{id}")
+    public BaseRest<?> updateUserById(@PathVariable("id") Integer id,@RequestBody UpdateUserDto updateUserDto){
+        UserDto userDto =userService.updateUserById(id,updateUserDto);
+        return BaseRest.builder()
+                .status(true)
+                .code(HttpStatus.OK.value())
+                .message("User has been delete successfully.")
+                .timestamp(LocalDateTime.now())
+                .data(userDto)
+                .build();
+    }
+    @PutMapping("/{id}/is-deleted")
     public BaseRest<?> updateIsDeletedStatusById(@PathVariable Integer id,@RequestBody IsDeletedDto dto){
         Integer deletedId = userService.updateIsDeletedStatusById(id, dto.status());
         return BaseRest.builder()
@@ -61,7 +73,7 @@ public class UserRestController {
         return BaseRest.builder()
                 .status(true)
                 .code(HttpStatus.OK.value())
-                .message("User has been create successfully.")
+                .message("User has been Updated successfully.")
                 .timestamp(LocalDateTime.now())
                 .data(userDtoPageInfo)
                 .build();
