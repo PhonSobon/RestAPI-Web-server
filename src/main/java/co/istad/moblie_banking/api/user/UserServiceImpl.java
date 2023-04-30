@@ -90,11 +90,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto searchUserByStudentCard(String studentCard) {
-        User user=userMapper.searchByStudentCard(studentCard).orElseThrow(
+    public UserDto searchUserByStudentCardId(String studentCardId) {
+        User user=userMapper.searchByStudentCardId(studentCardId).orElseThrow(
                 () -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        String.format("Student Card Id with id %s is not found",studentCard)
+                        String.format("Student Card Id with id %s is not found",studentCardId)
                 )
         );
         return userMapStruct.userToUserDto(user);

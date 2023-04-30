@@ -101,8 +101,8 @@ public class UserRestController {
                 .build();
     }
     @GetMapping("/{studentId}/student-card-id")
-    public BaseRest<?> searchUserByStudentCard(@PathVariable("studentId") String studentId){
-        UserDto userDto=userService.searchUserByStudentCard(studentId);
+    public BaseRest<?> searchUserByStudentCard(@PathVariable("studentCardId") String studentCardId){
+        UserDto userDto=userService.searchUserByStudentCardId(studentCardId);
         return BaseRest.builder()
                 .status(true)
                 .code(HttpStatus.OK.value())

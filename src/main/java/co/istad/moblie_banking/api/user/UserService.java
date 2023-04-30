@@ -15,6 +15,6 @@ public interface UserService {
         Integer updateIsDeletedStatusById(Integer id ,boolean status);
         UserDto updateUserById(Integer id , UpdateUserDto updateUserDto);
         UserDto searchUserByName(String name);
-        UserDto searchUserByStudentCard(String studentCard);
+        UserDto searchUserByStudentCardId(String studentCard);
 
 }

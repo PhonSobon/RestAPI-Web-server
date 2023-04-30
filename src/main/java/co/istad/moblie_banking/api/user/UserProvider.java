@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 public class UserProvider {
-    private static final String tableName ="Users";
+    private static final String tableName ="users";
     public String buildUpdateByIdSql(){
         return new SQL(){{
             UPDATE(tableName);
@@ -55,11 +55,19 @@ public class UserProvider {
                 WHERE("id = #{id}");
         }}.toString();
     }
-    public String buildSelectSql(@Param("name") String name){
+    public String buildSelectByNameSql(@Param("name") String name){
         return new SQL() {{
             SELECT("*");
             FROM(tableName);
             WHERE("name ILIKE CONCAT('%',#{name},'%')");
         }}.toString();
     }
+    public String buildSelectByStudentCardIdSql(){
+        return new SQL(){{
+            SELECT("*");
+            FROM(tableName);
+            WHERE("student_card_id=#{studentCardId}","is_deleted=false");
+        }}.toString();
+    }
+
 }
