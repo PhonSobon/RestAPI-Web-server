@@ -4,12 +4,14 @@ import co.istad.moblie_banking.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.File;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -30,15 +32,29 @@ public class FileServiceImpl implements FileService{
     }
     @Override
     public FileDto uploadSingle(MultipartFile file) {
-        return fileUtil.uploadFile(file);
+        return fileUtil.upload(file);
+    }
+
+    @Override
+    public List<FileDto> uploadMultiple(List<MultipartFile> files) {
+        List<FileDto> filesDto = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            filesDto.add(fileUtil.upload(file));
+        }
+
+        return filesDto;
     }
     @Override
-    public List<FileDto> uploadMultipleFile(List<MultipartFile> files) {
-        List<FileDto> fileDtoList = new ArrayList<>();
-        for(MultipartFile file: files){
-            fileDtoList.add(fileUtil.uploadFile(file));
-        }
-        return fileDtoList;
+    public FileDto findByName(String name) throws IOException {
+        Resource resource = fileUtil.findByName(name);
+        return FileDto.builder()
+                .name(resource.getFilename())
+                .extension(fileUtil.getExtension(resource.getFilename()))
+                .url(String.format("%s%s",fileBaseUrl, resource.getFilename()))
+                .downloadUrl(String.format("%s%s", fileBaseUrlDownload, name))
+                .size(resource.contentLength())
+                .build();
     }
     @Override
     public List<FileDto> findAllFile() {
@@ -52,43 +68,25 @@ public class FileServiceImpl implements FileService{
                             new FileDto(
                                     folderFile.getName()
                                     ,fileBaseUrl + folderFile.getName()
-                                    ,folderFile.getName().substring(folderFile.getName().lastIndexOf(".") + 1)
                                     ,fileBaseUrlDownload + folderFile.getName().substring(0,folderFile.getName().length()-4)
+                                    ,folderFile.getName().substring(folderFile.getName().lastIndexOf(".") + 1)
                                     ,folderFile.length()
                             )
                     );
         }
         return fileDtoList;
     }
-
-
-    @Override
-    public FileDto findFileByName(String fileName){
-        return fileUtil.findFileByName(fileName);
-    }
     @Override
     public void removeAllFiles() {
         fileUtil.removeAllFiles();
     }
     @Override
-    public String removeFileByName(String fileName) {
-        return fileUtil.removeFileByName(fileName);
+    public void deleteByName(String name) {
+        fileUtil.deleteByName(name);
     }
     @Override
-    public String downloadFile(String filename) {
-        File file = new File(fileServerPath);
-        File [] files = file.listFiles();
-        Path path = null;
-        String resource;
-        assert files != null;
-        for(File file1 : files){
-            String name = fileUtil.name(filename,file1);
-            if(name.equals(filename)){
-                path  = Paths.get(fileServerPath + file1.getName()).toAbsolutePath().normalize();
-            }
-        }
-        assert path != null;
-        resource = new String(String.valueOf(path.toUri()));
-        return resource;
+    public Resource download(String name) {
+        return fileUtil.findByName(name);
     }
+
 }
