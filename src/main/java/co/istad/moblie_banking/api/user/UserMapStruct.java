@@ -1,5 +1,6 @@
 package co.istad.moblie_banking.api.user;
 
+import co.istad.moblie_banking.api.auth.web.RegisterDto;
 import co.istad.moblie_banking.api.user.web.CreateUserDto;
 import co.istad.moblie_banking.api.user.web.UpdateUserDto;
 import co.istad.moblie_banking.api.user.web.UserDto;
@@ -13,4 +14,5 @@ public interface UserMapStruct {
     User userDtoToUser(UserDto userDto);
     User  updateUserDtoToUser(UpdateUserDto updateUserDto);
     PageInfo<UserDto> userPageInfoToUserDtoPageInfo(PageInfo<User> userPageInfo);
+    User registerDtoToUser(RegisterDto registerDto);
 }
