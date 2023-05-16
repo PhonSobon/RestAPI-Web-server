@@ -1,8 +1,11 @@
 package co.istad.moblie_banking.api.user;
 
+import co.istad.moblie_banking.api.auth.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,5 +24,8 @@ public class User {
     private String password;
     private Boolean isVerified;
     private String verifiedCode;
+
+    //user has role
+    private List<Role> roles;
 
 }
