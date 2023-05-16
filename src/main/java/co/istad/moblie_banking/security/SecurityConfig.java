@@ -3,6 +3,7 @@ package co.istad.moblie_banking.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -60,10 +61,11 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
 
         // Authorize URL mapping
-        http.authorizeHttpRequests(request -> {
-            request.requestMatchers("/api/v1/users/**").hasRole("CUSTOMER");
-            request.requestMatchers("/api/v1/account-types/**", "/api/v1/files/**").hasAnyRole("CUSTOMER", "ADMIN");
-            request.anyRequest().permitAll();
+        http.authorizeHttpRequests(auth -> {
+            auth.requestMatchers("/api/v1/auth/**").permitAll();
+            auth.requestMatchers(HttpMethod.GET,"/api/v1/users/**").hasAnyRole("ADMIN","SYSTEM");
+            auth.requestMatchers(HttpMethod.POST,"/api/v1/users/**").hasRole("SYSTEM");
+            auth.anyRequest().authenticated();
         });
         // Security mechanism
         http.httpBasic();
