@@ -1,5 +1,7 @@
 package co.istad.moblie_banking.api.auth;
 
+import co.istad.moblie_banking.api.auth.web.AuthDto;
+import co.istad.moblie_banking.api.auth.web.LogInDto;
 import co.istad.moblie_banking.api.auth.web.RegisterDto;
 import co.istad.moblie_banking.base.BaseRest;
 import jakarta.validation.Valid;
@@ -16,6 +18,20 @@ import java.time.LocalDateTime;
 @Slf4j
 public class AuthRestController {
     private final AuthService authService;
+    @PostMapping("/login")
+    public BaseRest<?> login(@Valid @RequestBody LogInDto logInDto) {
+
+        // call service
+        AuthDto authDto = authService.login(logInDto);
+
+        return BaseRest.builder()
+                .status(true)
+                .code(HttpStatus.OK.value())
+                .message("You have been logged in successfully")
+                .timestamp(LocalDateTime.now())
+                .data(authDto)
+                .build();
+    }
 
     @PostMapping("/register")
     public BaseRest<?> register(@Valid @RequestBody RegisterDto registerDto) {
